@@ -11,23 +11,6 @@ app.use(bodyParser.json());
 
 const apiRouter = express.Router();
 
-//Get all meals
-apiRouter.get("/", async (req, res) => {
-  try {
-    const SHOW_TABLES_QUERY =
-      process.env.DB_CLIENT === "mysql2"
-        ? "SELECT * FROM Meal"
-        : "SHOW TABLES;";
-
-    const tables = await knex.raw(SHOW_TABLES_QUERY);
-
-    res.json({ tables: tables.rows || tables });
-  } catch (error) {
-    console.error("Error fetching tables:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 //Get future meals
 apiRouter.get("/future-meals", async (req, res) => {
   try {
