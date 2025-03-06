@@ -58,4 +58,22 @@ mealsRouter.post("/", async (req, res) => {
   }
 });
 
+mealsRouter.get("/:id", async (req, res) => {
+  const mealId = req.params.id;
+  try {
+    const meal = await knex("Meal").select("*").where("id", mealId);
+
+    if (meal.length === 0) {
+      return res
+        .status(404)
+        .json({ error: `Meal not found with id: ${mealId}` });
+    }
+
+    res.status(200).json(meal);
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default mealsRouter;
