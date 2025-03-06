@@ -18,4 +18,44 @@ mealsRouter.get("/", async (req, res) => {
   }
 });
 
+mealsRouter.post("/", async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      location,
+      meal_time,
+      max_reservations,
+      price,
+      created_date,
+    } = req.body;
+
+    if (
+      !title ||
+      !description ||
+      !location ||
+      !meal_time ||
+      !max_reservations ||
+      price == null
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const [mealId] = await knex("Meal").insert({
+      title,
+      description,
+      location,
+      meal_time,
+      max_reservations,
+      price,
+      created_date,
+    });
+
+    res.status(201).json({ message: "New meal added", mealId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
 export default mealsRouter;
