@@ -76,4 +76,19 @@ mealsRouter.get("/:id", async (req, res) => {
   }
 });
 
+mealsRouter.put("/:id", async (req, res) => {
+  const mealId = req.params.id;
+  const updatedMeals = req.body;
+  try {
+    if (mealId) {
+      await knex("Meal").update(updatedMeals).where("id", mealId);
+      return res.status(200).json({ message: "Meal updated successfully" });
+    }
+    res.status(404).json({ error: `Meal not found with id: ${mealId}` });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default mealsRouter;
