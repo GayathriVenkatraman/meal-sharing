@@ -4,6 +4,7 @@ import knex from "../database_client.js";
 
 const mealsRouter = express.Router();
 
+// GET all meals
 mealsRouter.get("/", async (req, res) => {
   try {
     const meals = await knex("Meal").select("*");
@@ -18,6 +19,7 @@ mealsRouter.get("/", async (req, res) => {
   }
 });
 
+// POST a new meal
 mealsRouter.post("/", async (req, res) => {
   try {
     const {
@@ -58,6 +60,7 @@ mealsRouter.post("/", async (req, res) => {
   }
 });
 
+// GET a meal by ID
 mealsRouter.get("/:id", async (req, res) => {
   const mealId = req.params.id;
   try {
@@ -76,6 +79,7 @@ mealsRouter.get("/:id", async (req, res) => {
   }
 });
 
+// PUT update a meal by ID
 mealsRouter.put("/:id", async (req, res) => {
   const mealId = req.params.id;
   const updatedMeals = req.body;
@@ -91,6 +95,7 @@ mealsRouter.put("/:id", async (req, res) => {
   }
 });
 
+// DELETE a meal by ID
 mealsRouter.delete("/:id", async (req, res) => {
   const mealId = req.params.id;
   try {

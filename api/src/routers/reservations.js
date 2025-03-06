@@ -4,6 +4,7 @@ import knex from "../database_client.js";
 
 const reservationsRouter = express.Router();
 
+// GET all reservations
 reservationsRouter.get("/", async (req, res) => {
   try {
     const reservations = await knex("Reservation").select("*");
@@ -18,6 +19,7 @@ reservationsRouter.get("/", async (req, res) => {
   }
 });
 
+// POST a new reservation
 reservationsRouter.post("/", async (req, res) => {
   try {
     const {
@@ -54,6 +56,7 @@ reservationsRouter.post("/", async (req, res) => {
   }
 });
 
+// GET a reservation by ID
 reservationsRouter.get("/:id", async (req, res) => {
   const reservationId = req.params.id;
   try {
@@ -74,6 +77,7 @@ reservationsRouter.get("/:id", async (req, res) => {
   }
 });
 
+// PUT update a reservation by ID
 reservationsRouter.put("/:id", async (req, res) => {
   const reservationId = req.params.id;
   const updatedReservation = req.body;
@@ -95,6 +99,7 @@ reservationsRouter.put("/:id", async (req, res) => {
   }
 });
 
+// DELETE a reservation by ID
 reservationsRouter.delete("/:id", async (req, res) => {
   const reservationId = req.params.id;
   try {
