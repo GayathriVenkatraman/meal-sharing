@@ -67,11 +67,13 @@ apiRouter.get("/first-meal", async (req, res) => {
 //Get last meal
 apiRouter.get("/last-meal", async (req, res) => {
   try {
-    const meals = await knex.raw("SELECT * FROM Meal ORDER BY id DESC LIMIT 1");
+    const schema = "SELECT * FROM Meal ORDER BY id DESC LIMIT 1";
+    const meals = await knex.raw(schema);
+    const lastMeal = meals[0];
     if (meals[0].length === 0) {
       return res.status(404).json({ error: "No meals found" });
     }
-    res.json(meals[0][0]);
+    res.json(lastMeal);
   } catch (error) {
     console.error("Error fetching tables:", error);
     res.status(500).json({ error: "Something went wrong" });
