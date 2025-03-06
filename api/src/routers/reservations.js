@@ -74,4 +74,23 @@ reservationsRouter.get("/:id", async (req, res) => {
   }
 });
 
+reservationsRouter.put("/:id", async (req, res) => {
+  const reservationId = req.params.id;
+  const updatedReservation = req.body;
+  try {
+    if (reservationId) {
+      await knex("Reservation")
+        .update(updatedReservation)
+        .where("id", reservationId);
+      return res
+        .status(200)
+        .json({ message: "Reservations updated successfully" });
+    }
+    res.status(404).json({ error: `Meal not found with id: ${reservationId}` });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default reservationsRouter;
