@@ -14,10 +14,7 @@ const apiRouter = express.Router();
 //Get all meals
 apiRouter.get("/", async (req, res) => {
   try {
-    const SHOW_TABLES_QUERY =
-      process.env.DB_CLIENT === "mysql2"
-        ? "SELECT * FROM Meal"
-        : "SHOW TABLES;";
+    const ALL_MEALS_QUERY = SELECT * FROM Meal";
 
     const tables = await knex.raw(SHOW_TABLES_QUERY);
 
