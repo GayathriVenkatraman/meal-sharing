@@ -18,4 +18,40 @@ reservationsRouter.get("/", async (req, res) => {
   }
 });
 
+reservationsRouter.post("/", async (req, res) => {
+  try {
+    const {
+      number_of_guests,
+      meal_id,
+      created_date,
+      contact_phonenumber,
+      contact_name,
+      contact_email,
+    } = req.body;
+
+    if (
+      !number_of_guests ||
+      !meal_id ||
+      !contact_phonenumber ||
+      contact_name == null
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const [reservationId] = await knex("Reservation").insert({
+      number_of_guests,
+      meal_id,
+      created_date,
+      contact_phonenumber,
+      contact_name,
+      contact_email,
+    });
+
+    res.status(201).json({ message: "New reservation added", reservationId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
 export default reservationsRouter;
