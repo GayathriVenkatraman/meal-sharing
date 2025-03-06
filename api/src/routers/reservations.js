@@ -54,4 +54,24 @@ reservationsRouter.post("/", async (req, res) => {
   }
 });
 
+reservationsRouter.get("/:id", async (req, res) => {
+  const reservationId = req.params.id;
+  try {
+    const reservation = await knex("Reservation")
+      .select("*")
+      .where("id", reservationId);
+
+    if (reservation.length === 0) {
+      return res
+        .status(404)
+        .json({ error: `Reservation not found with id: ${reservationId}` });
+    }
+
+    res.status(200).json(reservation);
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default reservationsRouter;
