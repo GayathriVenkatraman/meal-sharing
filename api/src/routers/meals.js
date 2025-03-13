@@ -7,7 +7,8 @@ const mealsRouter = express.Router();
 // GET all meals
 mealsRouter.get("/", async (req, res) => {
   try {
-    const { maxPrice, availableReservations, title, dateAfter } = req.query;
+    const { maxPrice, availableReservations, title, dateAfter, dateBefore } =
+      req.query;
     let mealsQuery = knex("Meal");
 
     //Returns all meals that are cheaper than maxPrice.
@@ -47,6 +48,11 @@ mealsRouter.get("/", async (req, res) => {
     //Returns all meals where the date for when is after the given date.
     if (dateAfter) {
       mealsQuery = mealsQuery.where("meal_time", ">", dateAfter);
+    }
+
+    //Returns all meals where the date for when is before the given date.
+    if (dateBefore) {
+      mealsQuery = mealsQuery.where("meal_time", "<", dateBefore);
     }
 
     console.log(mealsQuery.toQuery());
