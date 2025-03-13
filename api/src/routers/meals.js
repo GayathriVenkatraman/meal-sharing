@@ -14,6 +14,8 @@ mealsRouter.get("/", async (req, res) => {
       dateAfter,
       dateBefore,
       limit,
+      sortKey,
+      sortDir,
     } = req.query;
     let mealsQuery = knex("Meal");
 
@@ -64,6 +66,17 @@ mealsRouter.get("/", async (req, res) => {
     //Returns the given number of meals.
     if (limit) {
       mealsQuery = mealsQuery.limit(limit);
+    }
+
+    //Returns all meals sorted by the given key and/or sortDir
+    if (sortKey) {
+      const allowedSortKeys = ["meal_time", "max_reservations", "price"];
+      if (allowedSortKeys.includes(sortKey)) {
+        mealsQuery = mealsQuery.orderBy(
+          sortKey,
+          sortDir === "desc" ? "desc" : "asc"
+        );
+      }
     }
 
     console.log(mealsQuery.toQuery());
