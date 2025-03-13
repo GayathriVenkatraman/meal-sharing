@@ -7,12 +7,36 @@ const mealsRouter = express.Router();
 // GET all meals
 mealsRouter.get("/", async (req, res) => {
   try {
+    const { maxPrice, availableReservations } = req.query;
     let mealsQuery = knex("Meal");
-    const { maxPrice } = req.query;
 
     //Returns all meals that are cheaper than maxPrice.
     if (maxPrice) {
       mealsQuery = mealsQuery.where("price", "<", maxPrice);
+    }
+
+    //Returns all meals that still have available spots left, if true. If false, return meals that have no available spots left
+    if (availableReservations === "true" || availableReservations === "false") {
+      mealsQuery = mealsQuery
+        .leftJoin("Reservation", "Meal.id", "Reservation.meal_id")
+        .select(
+          "Meal.id",
+          "Meal.title",
+          "Meal.max_reservations",
+          knex.raw(
+            "COALESCE(SUM(Reservation.number_of_guests), 0) as total_reserved"
+          )
+        )
+        .groupBy("Meal.id");
+      if (availableReservations === "true") {
+        mealsQuery = mealsQuery.havingRaw(
+          "total_reserved < Meal.max_reservations"
+        );
+      } else if (availableReservations === "false") {
+        mealsQuery = mealsQuery.havingRaw(
+          "total_reserved > Meal.max_reservations"
+        );
+      }
     }
 
     console.log(mealsQuery.toQuery());
