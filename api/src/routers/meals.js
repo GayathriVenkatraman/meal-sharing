@@ -92,6 +92,22 @@ mealsRouter.get("/", async (req, res) => {
   }
 });
 
+// GET all reviews for a specific meal
+mealsRouter.get("/:meal_id/reviews", async (req, res) => {
+  try {
+    const { meal_id } = req.params;
+    const reviews = await knex("Review").where("meal_id", meal_id).select("*");
+
+    if (reviews.length === 0) {
+      res.status(404).json({ message: "No reviews found" });
+    }
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error("Error fetching tables:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // POST a new meal
 mealsRouter.post("/", async (req, res) => {
   try {
