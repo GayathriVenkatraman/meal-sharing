@@ -7,7 +7,7 @@ const mealsRouter = express.Router();
 // GET all meals
 mealsRouter.get("/", async (req, res) => {
   try {
-    const { maxPrice, availableReservations } = req.query;
+    const { maxPrice, availableReservations, title } = req.query;
     let mealsQuery = knex("Meal");
 
     //Returns all meals that are cheaper than maxPrice.
@@ -37,6 +37,11 @@ mealsRouter.get("/", async (req, res) => {
           "total_reserved > Meal.max_reservations"
         );
       }
+    }
+
+    //Returns all meals that partially match the given title.
+    if (title) {
+      mealsQuery = mealsQuery.where("title", "like", `%${title}%`);
     }
 
     console.log(mealsQuery.toQuery());
