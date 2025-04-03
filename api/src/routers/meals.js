@@ -153,7 +153,7 @@ mealsRouter.post("/", async (req, res) => {
 
 // GET a meal by ID
 mealsRouter.get("/:id", async (req, res) => {
-  const mealId = req.params.id;
+  const mealId = Number(req.params.id);
   try {
     const meal = await knex("Meal").select("*").where("id", mealId);
 
