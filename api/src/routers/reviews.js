@@ -9,10 +9,7 @@ reviewsRouter.get("/", async (req, res) => {
   try {
     const reviews = await knex("Review").select("*");
 
-    if (reviews.length === 0) {
-      res.status(404).json({ message: "No reviews found" });
-    }
-    res.status(200).json(reviews);
+    res.json(reviews);
   } catch (error) {
     console.error("Error fetching tables:", error);
     res.status(500).json({ error: "Internal Server Error" });
