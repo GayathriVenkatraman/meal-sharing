@@ -121,17 +121,19 @@ mealsRouter.post("/", async (req, res) => {
       created_date,
     } = req.body;
 
-    if (
-      !title ||
-      !description ||
-      !location ||
-      !meal_time ||
-      !max_reservations ||
-      price == null
-    ) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+    const missingFields = [];
+    if (!title) missingFields.push("title");
+    if (!description) missingFields.push("description");
+    if (!location) missingFields.push("location");
+    if (!meal_time) missingFields.push("meal_time");
+    if (!max_reservations) missingFields.push("max_reservations");
+    if (price == null) missingFields.push("price");
 
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        error: `Missing required fields: ${missingFields.join(", ")}`,
+      });
+    }
     const [mealId] = await knex("Meal").insert({
       title,
       description,
