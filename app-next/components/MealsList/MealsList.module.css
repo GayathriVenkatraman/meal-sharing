@@ -13,37 +13,3 @@
   list-style: none;
   padding: 20px;
 }
-
-.mealCard {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  background-color: #fff;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.mealCard:hover {
-  transform: scale(1.05);
-  background-color: lightblue;
-}
-
-.mealTitle {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: blueviolet;
-}
-
-.mealDescription {
-  font-size: 1.1rem;
-  color: crimson;
-  margin: 10px 0;
-}
-
-.mealPrice,
-.maxReservation,
-.mealTime {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #008000;
-}

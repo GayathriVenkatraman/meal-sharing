@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./MealsList.module.css";
+import Meal from "../Meal/Meal";
 
 const MealsList = () => {
   const [meals, setMeals] = useState([]);
@@ -37,31 +38,11 @@ const MealsList = () => {
   return (
     <div>
       <h2 className={styles.mealsHeader}>Meals List</h2>
-      {meals.length === 0 ? (
-        <p>No meals available</p>
-      ) : (
-        <ul>
-          <div className={styles.mealsContainer}>
-            {meals.map((meal) => (
-              <li key={meal.id}>
-                <div key={meal.id} className={styles.mealCard}>
-                  <h3 className={styles.mealTitle}>{meal.title}</h3>
-                  <p className={styles.mealDescription}>
-                    <strong>Description:</strong> {meal.description}
-                  </p>
-                  <p className={styles.mealPrice}>Price: {meal.price}</p>
-                  <p className={styles.maxReservation}>
-                    Max Reservations: {meal.max_reservations}
-                  </p>
-                  <p className={styles.mealTime}>
-                    Meal Time: {new Date(meal.meal_time).toLocaleString()}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </div>
-        </ul>
-      )}
+      <div className={styles.mealsContainer}>
+        {meals.map((meal) => (
+          <Meal key={meal.id} meal={meal} />
+        ))}
+      </div>
     </div>
   );
 };
