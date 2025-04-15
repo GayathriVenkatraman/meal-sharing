@@ -1,0 +1,17 @@
+.link {
+  display: flex;
+  margin: 5vh 0;
+}
+
+.logo,
+.message {
+  margin: auto;
+}
+
+.homeHeader {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
