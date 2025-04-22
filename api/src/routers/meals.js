@@ -83,7 +83,7 @@ mealsRouter.get("/", async (req, res) => {
     console.log(mealsQuery.toQuery());
     const meals = await mealsQuery;
 
-    const meals = await knex("Meal").select("*");
+    //const meals = await knex("Meal").select("*");
 
 
     if (meals.length === 0) {
@@ -139,21 +139,10 @@ mealsRouter.post("/", async (req, res) => {
       return res
         .status(400)
         .json({
-          error: `Missing required fields: ${missingFields.join(", ")}`,
+          error: `Missing required fields: ${missingFields.join(", ")}`
         });
-
-    if (
-      !title ||
-      !description ||
-      !location ||
-      !meal_time ||
-      !max_reservations ||
-      price == null
-    ) {
-      return res.status(400).json({ error: "Missing required fields" });
-
-    }
-
+      }
+    
     const [mealId] = await knex("Meal").insert({
       title,
       description,
@@ -165,7 +154,8 @@ mealsRouter.post("/", async (req, res) => {
     });
 
     res.status(201).json({ message: "New meal added", mealId });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error(error);
     res.status(500).json({ error: "Database error" });
   }
