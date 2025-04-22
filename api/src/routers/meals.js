@@ -7,6 +7,7 @@ const mealsRouter = express.Router();
 // GET all meals
 mealsRouter.get("/", async (req, res) => {
   try {
+
     const {
       maxPrice,
       availableReservations,
@@ -82,6 +83,9 @@ mealsRouter.get("/", async (req, res) => {
     console.log(mealsQuery.toQuery());
     const meals = await mealsQuery;
 
+    const meals = await knex("Meal").select("*");
+
+
     if (meals.length === 0) {
       res.status(404).json({ message: "No meals found" });
     }
@@ -91,6 +95,7 @@ mealsRouter.get("/", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 // GET all reviews for a specific meal
 mealsRouter.get("/:meal_id/reviews", async (req, res) => {
@@ -107,6 +112,7 @@ mealsRouter.get("/:meal_id/reviews", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 // POST a new meal
 mealsRouter.post("/", async (req, res) => {
@@ -135,6 +141,17 @@ mealsRouter.post("/", async (req, res) => {
         .json({
           error: `Missing required fields: ${missingFields.join(", ")}`,
         });
+
+    if (
+      !title ||
+      !description ||
+      !location ||
+      !meal_time ||
+      !max_reservations ||
+      price == null
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+
     }
 
     const [mealId] = await knex("Meal").insert({

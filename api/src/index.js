@@ -5,13 +5,16 @@ import bodyParser from "body-parser";
 import nestedRouter from "./routers/nested.js";
 import mealsRouter from "./routers/meals.js";
 import reservationsRouter from "./routers/reservations.js";
+
 import reviewsRouter from "./routers/reviews.js";
+
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 const apiRouter = express.Router();
+
 
 apiRouter.use("/nested", nestedRouter);
 
