@@ -1,0 +1,43 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.title {
+  font-family: "Segoe UI";
+  font-size: 40px;
+  margin-left: 16px;
+  color: #333;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.navItem {
+  text-decoration: none;
+  font-weight: 500;
+  color: #333;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.navItem:hover {
+  color: #0070f3;
+}
