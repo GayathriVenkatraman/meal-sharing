@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./MealsList.module.css";
 import Meal from "../Meal/Meal";
 
-const MealsList = () => {
+const MealsList = ({ limit }) => {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,14 +18,14 @@ const MealsList = () => {
         }
       })
       .then((data) => {
-        setMeals(data);
+        setMeals(limit ? data.slice(0, limit) : data);
         setLoading(false);
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
-  }, []);
+  }, [limit]);
 
   if (loading) {
     return <div>Loading...</div>;

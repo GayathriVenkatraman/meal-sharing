@@ -15,3 +15,23 @@
   margin-bottom: 20px;
   color: #333;
 }
+
+.buttonContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.seeAllButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.seeAllButton:hover {
+  background-color: #45a049;
+}
