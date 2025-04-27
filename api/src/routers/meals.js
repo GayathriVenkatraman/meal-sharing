@@ -163,7 +163,7 @@ mealsRouter.get("/:id", async (req, res) => {
         .json({ error: `Meal not found with id: ${mealId}` });
     }
 
-    res.status(200).json(meal);
+    res.status(200).json(meal[0]);
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).json({ error: error.message });
