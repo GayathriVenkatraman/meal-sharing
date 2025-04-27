@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import ReservationForm from "@/components/ReservationForm/ReservationForm";
 import ReservationList from "@/components/ReservationForm/ReservationList";
+import ReviewForm from "@/components/Reviews/ReviewForm";
+import ReviewList from "@/components/Reviews/ReviewList";
 import { useParams, useRouter } from "next/navigation";
 import { getMealById, getReservations } from "@/utils/fetchFunctions";
 import styles from "./meal.module.css";
@@ -94,6 +96,9 @@ const MealPage = () => {
         mealId={meal.id}
         onReservationChange={refreshReservations}
       />
+
+      <ReviewForm mealId={meal.id} onReviewSubmit={() => {}} />
+      <ReviewList mealId={meal.id} onReviewSubmit={() => {}} />
     </div>
   );
 };
