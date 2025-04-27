@@ -2,28 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import ReservationForm from "@/components/ReservationForm/ReservationForm";
+import ReservationList from "@/components/ReservationForm/ReservationList";
 import { useParams, useRouter } from "next/navigation";
 import { getMealById, getReservations } from "@/utils/fetchFunctions";
 import styles from "./meal.module.css";
-
-// export async function generateStaticParams() {
-//   const res = await fetch("http://localhost:3001/api/meals");
-//   const meals = await res.json();
-
-//   return meals.map((meal) => ({
-//     id: meal.id.toString(),
-//   }));
-// }
 
 const MealPage = () => {
   const { id } = useParams();
   const router = useRouter();
   const [meal, setMeal] = useState([]);
   const [reservations, setReservations] = useState([]);
+  const [availableSeats, setAvailableSeats] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMealData = async () => {
+    const fetchMealAndReservations = async () => {
       try {
         const mealData = await getMealById(id);
         setMeal(mealData);
@@ -31,8 +24,14 @@ const MealPage = () => {
         const filtered = allReservations.filter(
           (r) => r.meal_id === Number(id)
         );
+        const reservedGuests = filtered.reduce(
+          (sum, r) => sum + r.number_of_guests,
+          0
+        );
+        const seats = mealData.max_reservations - reservedGuests;
 
         setReservations(filtered);
+        setAvailableSeats(seats);
       } catch (err) {
         console.error(err);
       } finally {
@@ -40,8 +39,12 @@ const MealPage = () => {
       }
     };
 
-    fetchMealData();
+    fetchMealAndReservations();
   }, [id]);
+
+  const refreshReservations = async () => {
+    await fetchMealAndReservations();
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -55,7 +58,7 @@ const MealPage = () => {
     (sum, r) => sum + r.number_of_guests,
     0
   );
-  const availableSeats = meal.max_reservations - totalReserved;
+  //const availableSeats = meal.max_reservations - totalReserved;
   const mealDate = new Date(meal.meal_time).toLocaleDateString("da-DK");
 
   return (
@@ -87,6 +90,10 @@ const MealPage = () => {
           <ReservationForm mealId={meal.id} availableSeats={availableSeats} />
         </>
       )}
+      <ReservationList
+        mealId={meal.id}
+        onReservationChange={refreshReservations}
+      />
     </div>
   );
 };
