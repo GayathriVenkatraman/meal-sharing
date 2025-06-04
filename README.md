@@ -47,7 +47,7 @@
 # 📦 Installation
 **Clone the Repository:**
 
-git clone https://github.com/yourusername/meal-sharing-app.git
+git clone https://github.com/GayathriVenkatraman/meal-sharing.git
 
 cd meal-sharing-app
 
